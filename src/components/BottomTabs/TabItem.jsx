@@ -88,8 +88,8 @@ export default TabItem;
 const styles = StyleSheet.create({
   labelContainer: {
     position: "absolute",
-    width: LABEL_WIdth,
-    alignItems: "center",
+    width: LABEL_WIdth / 2,
+    // alignItems: "center",
   },
   label: {
     fontSize: 17,

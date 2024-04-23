@@ -6,6 +6,7 @@ const circleContainerSize = 50;
 
 const AnimatedCircle = function ({ circleX }) {
   const circleContainerStyle = useAnimatedStyle(function () {
+    console.log("circleX", circleX.value);
     return {
       transform: [{ translateX: circleX.value - circleContainerSize / 2 }],
     };

@@ -15,6 +15,7 @@ import usePath from "../../hooks/usePath";
 import { getPathXCenter } from "../../utils/Path";
 import AnimatedCircle from "./AnimatedCircle";
 import TabItem from "./TabItem";
+import { getPathXCenterByIndex } from "../../utils/Path";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -48,17 +49,21 @@ const CustomBottomTab = ({ state, descriptors, navigation }) => {
   const handleTabPress = (index, tab) => {
     navigation.navigate(tab);
     progress.value = withTiming(index);
+    circleXCoordinate.value = getPathXCenterByIndex(curvedPath, index - 1);
+    console.log("index", index, tab);
   };
+
+  console.log(state.routes.map((route) => route.name));
   return (
     <View style={styles.tabBarContainer}>
       <Svg width={SCREEN_WIDTH} height={tHeight} style={styles.shadowMd}>
         <AnimatedPath animatedProps={animatedProps} fill="black" />
       </Svg>
-      <AnimatedCircle circleX={circleXCoordinate} />
       <View style={[styles.tabItemsContainer, { height: tHeight }]}>
+        <AnimatedCircle circleX={circleXCoordinate} />
+
         {state?.routes?.map((route, index) => {
           const { options } = descriptors[route.key];
-          console.log(index);
           const label = options.tabBarLabel ? options.tabBarLabel : route.name;
           return (
             <TabItem
