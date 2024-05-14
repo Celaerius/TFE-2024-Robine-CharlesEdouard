@@ -10,9 +10,9 @@ const Tab = createBottomTabNavigator();
 export default function BottomTabs() {
   return (
     <Tab.Navigator
-      tabBar={(props) => {
-        return <CustomBottomTab {...props} />;
-      }}
+    // tabBar={(props) => {
+    //   return <CustomBottomTab {...props} />;
+    // }}
     >
       <Tab.Group screenOptions={{ headerShown: false }}>
         <Tab.Screen

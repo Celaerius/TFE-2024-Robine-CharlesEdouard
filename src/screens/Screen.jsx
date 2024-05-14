@@ -1,11 +1,18 @@
 import React from "react";
 import { StatusBar, Text, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import LottieView from "lottie-react-native";
 
 export default function Screen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
+      <LottieView
+        style={{ width: 200, height: 200 }}
+        source={require("../../assets/animation/LottieLego.json")}
+        autoPlay
+        loop
+      />
       <Animated.Text
         entering={FadeInUp.duration(1000).springify()}
         style={styles.title}
