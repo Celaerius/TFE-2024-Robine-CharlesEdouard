@@ -1,7 +1,7 @@
-import React from "react";
-import { StatusBar, Text, View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import LottieView from "lottie-react-native";
+import React from "react";
+import { StatusBar, View } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 export default function Screen() {
   return (
@@ -10,6 +10,12 @@ export default function Screen() {
       <LottieView
         style={{ width: 200, height: 200 }}
         source={require("../../assets/animation/LottieLego.json")}
+        autoPlay
+        loop
+      />
+      <LottieView
+        style={{ width: 200, height: 200 }}
+        source={require("../../assets/animation/SwipLeft.json")}
         autoPlay
         loop
       />
