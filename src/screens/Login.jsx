@@ -17,12 +17,40 @@ import Animated, {
 } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
+import { Controller, set } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Enter a valid email")
+      .required("Email is required"),
+    password: yup.string().required("Password is required"),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  onsubmit = (data) => {
+    if (data) {
+      setEmail(data.email);
+      setPassword(data.password);
+    }
+    HandleLogin();
+  };
 
   const HandleLogin = () => {
     navigation.navigate("AppStack");
@@ -81,32 +109,64 @@ export default function LoginScreen() {
               entering={FadeInDown.duration(1000).delay(200).springify()}
               style={styles.formInput}
             >
-              <TextInput
-                placeholder="Email"
-                placeholderTextColor={"gray"}
-                value={email}
-                onChangeText={setEmail}
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <TextInput
+                    placeholder="Email"
+                    placeholderTextColor={"gray"}
+                    value={field.value}
+                    onChangeText={(text) => {
+                      field.onChange(text);
+                    }}
+                  />
+                )}
+                name="email"
               />
             </Animated.View>
+            {errors.email ? (
+              <Animated.Text
+                entering={FadeInUp.duration(1000).delay(200).springify()}
+                style={{ color: "#FF6161" }}
+              >
+                {errors.email?.message}
+              </Animated.Text>
+            ) : null}
             <Animated.View
               entering={FadeInDown.duration(1000).delay(400).springify()}
               style={[styles.formInput, { marginBottom: 12 }]}
             >
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor={"gray"}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <TextInput
+                    placeholder="Password"
+                    placeholderTextColor={"gray"}
+                    value={field.value}
+                    onChangeText={(text) => {
+                      field.onChange(text);
+                    }}
+                    secureTextEntry={true}
+                  />
+                )}
+                name="password"
               />
             </Animated.View>
+            {errors.password ? (
+              <Animated.Text
+                entering={FadeInUp.duration(1000).delay(200).springify()}
+                style={{ color: "#FF6161" }}
+              >
+                {errors.password?.message}
+              </Animated.Text>
+            ) : null}
             <Animated.View
               entering={FadeInDown.duration(1000).delay(600).springify()}
               style={styles.loginButtonContainer}
             >
               <TouchableOpacity
                 style={styles.loginButton}
-                onPress={() => HandleLogin()}
+                onPress={handleSubmit(onsubmit)}
               >
                 <Text style={styles.loginButtonText}>Login</Text>
               </TouchableOpacity>
