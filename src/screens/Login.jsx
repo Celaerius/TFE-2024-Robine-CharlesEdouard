@@ -126,8 +126,8 @@ export default function LoginScreen() {
             </Animated.View>
             {errors.email ? (
               <Animated.Text
-                entering={FadeInUp.duration(1000).delay(200).springify()}
-                style={{ color: "#FF6161" }}
+                entering={FadeIn.duration(1000).delay(200).springify()}
+                style={{ color: "#FF6161", paddingBottom: 12 }}
               >
                 {errors.email?.message}
               </Animated.Text>
@@ -154,8 +154,8 @@ export default function LoginScreen() {
             </Animated.View>
             {errors.password ? (
               <Animated.Text
-                entering={FadeInUp.duration(1000).delay(200).springify()}
-                style={{ color: "#FF6161" }}
+                entering={FadeIn.duration(1000).delay(200).springify()}
+                style={{ color: "#FF6161", paddingBottom: 12 }}
               >
                 {errors.password?.message}
               </Animated.Text>
