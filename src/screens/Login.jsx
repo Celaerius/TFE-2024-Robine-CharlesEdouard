@@ -44,7 +44,7 @@ export default function LoginScreen() {
     resolver: yupResolver(schema),
   });
 
-  onsubmit = (data) => {
+  const onsubmit = (data) => {
     if (data) {
       setEmail(data.email);
       setPassword(data.password);
