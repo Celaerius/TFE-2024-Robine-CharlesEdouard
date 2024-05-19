@@ -8,7 +8,7 @@ const CardForSlide = ({ card }) => {
       <View style={{ alignContent: "center", justifyContent: "center" }}>
         <LottieView
           style={{ height: 200, width: 200 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
         />
       </View>
       <View style={{ justifyContent: "center", alignContent: "center" }}>
@@ -17,34 +17,34 @@ const CardForSlide = ({ card }) => {
       <View style={{ flexDirection: "row" }}>
         <LottieView
           style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
         />
         <LottieView
           style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
-        />
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <LottieView
-          style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
         />
       </View>
       <View style={{ flexDirection: "row" }}>
         <LottieView
           style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
+        />
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <LottieView
+          style={{ height: 60, width: 60 }}
+          source={require("../../assets/animations/LottieLego.json")}
         />
         <LottieView
           style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
         />
       </View>
 
       <View style={{ flexDirection: "row" }}>
         <LottieView
           style={{ height: 60, width: 60 }}
-          source={require("../../assets/animation/LottieLego.json")}
+          source={require("../../assets/animations/LottieLego.json")}
         />
       </View>
     </View>

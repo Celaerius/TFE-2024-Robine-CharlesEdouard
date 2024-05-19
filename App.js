@@ -6,6 +6,7 @@ import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomTabs from "./src/BottomTabs";
 import LoginScreen from "./src/screens/Login";
+import LoginForm from "./src/screens/LoginForm";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -19,6 +20,11 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CreateAccount"
+            component={LoginForm}
             options={{ headerShown: false }}
           />
           <Stack.Screen

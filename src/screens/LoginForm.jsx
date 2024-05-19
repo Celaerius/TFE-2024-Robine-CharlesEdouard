@@ -21,15 +21,16 @@ import LottieView from "lottie-react-native";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
 
   const navigation = useNavigation();
 
-  const HandleLogin = () => {
-    navigation.navigate("AppStack");
+  const HandleCreate = () => {
+    navigation.navigate("Login");
   };
 
-  const CreateAccount = () => {
-    navigation.navigate("CreateAccount");
+  const Connect = () => {
+    navigation.navigate("Login");
   };
 
   return (
@@ -78,7 +79,18 @@ export default function LoginScreen() {
           </View>
           <View style={styles.formInputContainer}>
             <Animated.View
-              entering={FadeInDown.duration(1000).delay(200).springify()}
+              entering={FadeInDown.duration(1000).delay(300).springify()}
+              style={styles.formInput}
+            >
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor={"gray"}
+                value={userName}
+                onChangeText={setUserName}
+              />
+            </Animated.View>
+            <Animated.View
+              entering={FadeInDown.duration(1000).delay(400).springify()}
               style={styles.formInput}
             >
               <TextInput
@@ -89,7 +101,7 @@ export default function LoginScreen() {
               />
             </Animated.View>
             <Animated.View
-              entering={FadeInDown.duration(1000).delay(400).springify()}
+              entering={FadeInDown.duration(1000).delay(500).springify()}
               style={[styles.formInput, { marginBottom: 12 }]}
             >
               <TextInput
@@ -106,9 +118,9 @@ export default function LoginScreen() {
             >
               <TouchableOpacity
                 style={styles.loginButton}
-                onPress={() => HandleLogin()}
+                onPress={() => HandleCreate()}
               >
-                <Text style={styles.loginButtonText}>Login</Text>
+                <Text style={styles.loginButtonText}>Create</Text>
               </TouchableOpacity>
             </Animated.View>
           </View>
@@ -117,17 +129,17 @@ export default function LoginScreen() {
               entering={FadeInDown.duration(1000).delay(800).springify()}
             >
               <Text style={{ color: "white", marginRight: 10, fontSize: 16 }}>
-                No account ?
+                Already have an account ?
               </Text>
             </Animated.View>
             <Animated.View
               entering={FadeInDown.duration(1000).delay(800).springify()}
             >
-              <TouchableOpacity onPress={CreateAccount}>
+              <TouchableOpacity onPress={Connect}>
                 <Text
                   style={{ color: "#51abcb", marginRight: 10, fontSize: 16 }}
                 >
-                  Create One !
+                  Connect !
                 </Text>
               </TouchableOpacity>
             </Animated.View>

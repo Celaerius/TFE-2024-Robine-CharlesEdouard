@@ -9,13 +9,13 @@ export default function Screen() {
       <StatusBar barStyle="dark-content" />
       <LottieView
         style={{ width: 200, height: 200 }}
-        source={require("../../assets/animation/LottieLego.json")}
+        source={require("../../assets/animations/LottieLego.json")}
         autoPlay
         loop
       />
       <LottieView
         style={{ width: 200, height: 200 }}
-        source={require("../../assets/animation/SwipLeft.json")}
+        source={require("../../assets/animations/SwipLeft.json")}
         autoPlay
         loop
       />
