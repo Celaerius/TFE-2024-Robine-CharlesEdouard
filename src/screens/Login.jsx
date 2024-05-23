@@ -53,7 +53,7 @@ export default function LoginScreen() {
   };
 
   const HandleLogin = () => {
-    navigation.navigate("AppStack");
+    dispatch(AccesLogin({ email, password }));
   };
 
   const CreateAccount = () => {

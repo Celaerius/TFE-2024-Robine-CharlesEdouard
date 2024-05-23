@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { reducer as dbGameReducer } from "../features/slices/DbGame";
+import { reducer as authreducer } from "../features/slices/Authentication";
 
 export default configureStore({
-  reducer: {},
+  reducer: {
+    authentication: authreducer,
+  },
 });
