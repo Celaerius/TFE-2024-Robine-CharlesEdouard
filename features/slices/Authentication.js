@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import APIRequest from "../service/APIRequest";
+import APIRequest from "../../service/APIRequest";
 
 const initialState = {
   token: null,

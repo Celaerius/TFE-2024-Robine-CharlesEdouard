@@ -3,29 +3,41 @@ import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import BottomTabs from "./src/BottomTabs";
 import LoginScreen from "./src/screens/Login";
 import LoginForm from "./src/screens/LoginForm";
+import store from "./app/store";
 
 export default function App() {
   const Stack = createStackNavigator();
-  const Tab = createStackNavigator();
 
   const AppNav = () => {
     const token = useSelector((state) => state.authentication.token);
     if (token === null) {
       return (
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="LoginForm" component={LoginForm} />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="LoginForm"
+            component={LoginForm}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       );
     } else {
       return (
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={BottomTabs} />
-        </Tab.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={BottomTabs}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
       );
     }
   };
