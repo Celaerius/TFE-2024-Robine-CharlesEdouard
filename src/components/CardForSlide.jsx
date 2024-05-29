@@ -1,8 +1,11 @@
 import LottieView from "lottie-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../../features/slices/Users";
+import { useSelector } from "react-redux";
 
-const CardForSlide = ({ card }) => {
+const CardForSlide = ({ user }) => {
   return (
     <View style={styles.card}>
       <View style={{ alignContent: "center", justifyContent: "center" }}>
@@ -11,8 +14,13 @@ const CardForSlide = ({ card }) => {
           source={require("../../assets/animations/LottieLego.json")}
         />
       </View>
-      <View style={{ justifyContent: "center", alignContent: "center" }}>
-        <Text style={{ fontSize: 25 }}>Titre de la carte</Text>
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <Text style={{ fontSize: 25 }}>{user.name}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <LottieView

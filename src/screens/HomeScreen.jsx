@@ -1,91 +1,77 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { View } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import CardForSlide from "../components/CardForSlide";
-import { runOnJS } from "react-native-reanimated";
+import React, { useEffect } from "react";
+import { Text, View } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../features/slices/Users";
+import SwipableCards from "../components/CardStack";
+import { sendSwipe } from "../../features/slices/Swip";
 
 export default function HomeScreen() {
-  const [cards, setCards] = useState([0]);
   const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
+  const users = useSelector((state) => state.users.users);
 
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx) => {
-      ctx.startX = translateX.value;
-    },
-    onActive: (event, ctx) => {
-      translateX.value = ctx.startX + event.translationX;
-    },
-    onEnd: (event) => {
-      if (Math.abs(event.translationX) > 120) {
-        translateX.value = withSpring(
-          event.translationX > 0 ? 400 : -400,
-          {
-            damping: 10,
-          },
-          () => {
-            runOnJS(handleCardSwiped)();
-          }
-        );
-      } else {
-        translateX.value = withSpring(0);
-      }
-    },
-  });
+  const dispatch = useDispatch();
 
-  const handleCardSwiped = () => {
-    setCards((prevCards) => {
-      const newCards = prevCards.slice(1);
-      newCards.push(prevCards.length);
-      return newCards;
-    });
-    translateX.value = 0;
-    translateY.value = 0;
+  const getUsers = () => {
+    dispatch(fetchUsers());
   };
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translateX.value }],
-    };
-  });
+  const VerifySwipe = (swipeeId, isRightSwipe) => {
+    dispatch(sendSwipe(swipeeId, isRightSwipe));
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {cards.map((card, index) => (
-        <PanGestureHandler key={index} onGestureEvent={gestureHandler}>
-          <Animated.View style={[styles.card, animatedStyle]}>
-            <CardForSlide profil={card} />
-          </Animated.View>
-        </PanGestureHandler>
-      ))}
+      <Text style={styles.appName}>Gamer Space</Text>
+      <View style={styles.container2}>
+        {users && (
+          <SwipableCards
+            users={users}
+            onDeclined={(swipeeId, isRightSwipe) => {
+              VerifySwipe(swipeeId, isRightSwipe);
+              console.log("Declined", id);
+            }}
+            onAccepted={(id) => {
+              console.log("Accepted", id);
+            }}
+            onEnded={() => {}}
+          />
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = {
-  container: {
+  container2: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    width: "100%",
+    padding: 60,
   },
-  title: {
-    fontSize: 24,
+  container: {
+    backgroundColor: "#FFF",
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
   },
   card: {
     width: 300,
     height: 550,
-    backgroundColor: "skyblue",
-    borderRadius: 10,
+    backgroundColor: "#1a6985",
+    borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
+  },
+  appName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 70,
   },
 };

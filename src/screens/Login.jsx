@@ -1,30 +1,29 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
-  Image,
-  KeyboardAvoidingView,
+  ScrollView,
   StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Platform,
-  ScrollView,
 } from "react-native";
 import Animated, {
+  FadeIn,
   FadeInDown,
   FadeInUp,
-  FadeIn,
 } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
-import { Controller, set } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import { AccesLogin } from "../../features/slices/Authentication";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -46,18 +45,12 @@ export default function LoginScreen() {
 
   const onsubmit = (data) => {
     if (data) {
-      setEmail(data.email);
-      setPassword(data.password);
+      dispatch(AccesLogin(data));
     }
-    HandleLogin();
-  };
-
-  const HandleLogin = () => {
-    dispatch(AccesLogin({ email, password }));
   };
 
   const CreateAccount = () => {
-    navigation.navigate("CreateAccount");
+    navigation.navigate("LoginForm");
   };
 
   return (

@@ -17,7 +17,7 @@ export default function BottomTabs() {
       <Tab.Group screenOptions={{ headerShown: false }}>
         <Tab.Screen
           options={{ tabBarLabel: "Home" }}
-          name="Home"
+          name="HomeScreen"
           component={HomeScreen}
         />
         <Tab.Screen

@@ -21,13 +21,12 @@ import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
+import { AccesRegister } from "../../features/slices/Authentication";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
-
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const schema = yup.object().shape({
     email: yup
@@ -35,7 +34,7 @@ export default function LoginScreen() {
       .email("Enter a valid email")
       .required("Email is required"),
     password: yup.string().required("Password is required"),
-    userName: yup.string().required("Username is required"),
+    name: yup.string().required("Username is required"),
   });
 
   const {
@@ -46,17 +45,15 @@ export default function LoginScreen() {
     resolver: yupResolver(schema),
   });
 
-  const onsubmit = (data) => {
-    if (data) {
-      setEmail(data.email);
-      setPassword(data.password);
-      setUserName(data.userName);
+  const onsubmit = async (data) => {
+    try {
+      if (data) {
+        await dispatch(AccesRegister(data)).unwrap();
+        navigation.navigate("Login");
+      }
+    } catch (error) {
+      console.log(error);
     }
-    HandleCreate();
-  };
-
-  const HandleCreate = () => {
-    navigation.navigate("Login");
   };
 
   const Connect = () => {
@@ -122,15 +119,15 @@ export default function LoginScreen() {
                     onChangeText={(text) => field.onChange(text)}
                   />
                 )}
-                name="userName"
+                name="name"
               />
             </Animated.View>
-            {errors.userName ? (
+            {errors.name ? (
               <Animated.Text
                 entering={FadeIn.duration(1000)}
                 style={{ color: "#FF6161", paddingBottom: 12 }}
               >
-                {errors.userName?.message}
+                {errors.name?.message}
               </Animated.Text>
             ) : null}
             <Animated.View

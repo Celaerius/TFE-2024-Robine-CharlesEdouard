@@ -14,7 +14,8 @@ export default function App() {
 
   const AppNav = () => {
     const token = useSelector((state) => state.authentication.token);
-    if (token === null) {
+    console.log(token);
+    if (token === null || token === undefined) {
       return (
         <Stack.Navigator>
           <Stack.Screen
