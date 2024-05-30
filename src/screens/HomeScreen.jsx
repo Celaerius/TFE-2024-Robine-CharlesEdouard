@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../features/slices/Users";
 import SwipableCards from "../components/CardStack";
 import { sendSwipe } from "../../features/slices/Swip";
+import { useState } from "react";
 
 export default function HomeScreen() {
   const translateX = useSharedValue(0);
   const users = useSelector((state) => state.users.users);
+  const [data, setData] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -17,13 +19,13 @@ export default function HomeScreen() {
     dispatch(fetchUsers());
   };
 
-  const VerifySwipe = (swipeeId, isRightSwipe) => {
-    dispatch(sendSwipe(swipeeId, isRightSwipe));
-  };
-
   useEffect(() => {
     getUsers();
   }, []);
+
+  useEffect(() => {
+    dispatch(sendSwipe(data));
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -33,13 +35,10 @@ export default function HomeScreen() {
         {users && (
           <SwipableCards
             users={users}
-            onDeclined={(swipeeId, isRightSwipe) => {
-              VerifySwipe(swipeeId, isRightSwipe);
-              console.log("Declined", id);
-            }}
-            onAccepted={(id) => {
-              console.log("Accepted", id);
-            }}
+            setData={setData}
+            data={data}
+            onDeclined={(isRightSwipe) => {}}
+            onAccepted={(isRightSwipe) => {}}
             onEnded={() => {}}
           />
         )}

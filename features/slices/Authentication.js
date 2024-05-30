@@ -9,7 +9,8 @@ const initialState = {
 
 const storeData = async (value) => {
   try {
-    await AsyncStorage.setItem("my-key", value);
+    await AsyncStorage.setItem("my-key", value.token);
+    await AsyncStorage.setItem("my-id", String(value.id));
   } catch (e) {
     // saving error
   }
@@ -19,13 +20,12 @@ export const AccesLogin = createAsyncThunk(
   "authentication/login",
   async ({ email, password }, thunkAPI) => {
     try {
-      console.log("ok", email, password);
       const response = await APIRequest.post("/login", {
         email: email,
         password: password,
       });
       if (response.status === 200) {
-        return response.data.success.token;
+        return response.data.success;
       } else {
         return thunkAPI.rejectWithValue("Login failed");
       }
@@ -38,7 +38,6 @@ export const AccesLogin = createAsyncThunk(
 export const AccesRegister = createAsyncThunk(
   "authentication/register",
   async ({ email, password, name }, thunkAPI) => {
-    console.log("ok");
     try {
       const response = await APIRequest.post("/users", {
         email: email,
@@ -67,7 +66,8 @@ export const authenticationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(AccesLogin.fulfilled, (state, action) => {
-      state.token = action.payload;
+      console.log("Login success", action);
+      state.token = action.payload.token;
       storeData(action.payload);
     });
     builder.addCase(AccesLogin.rejected, (state, action) => {

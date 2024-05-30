@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import APIRequest from "../../service/APIRequest";
 
 const initialState = {
   swipes: [],
@@ -8,24 +8,23 @@ const initialState = {
 export const SWIPE_RIGHT = "SWIPE_RIGHT";
 export const SWIPE_LEFT = "SWIPE_LEFT";
 
-export const sendSwipe = createAsyncThunk(
-  "swipes/sendSwipe",
-  async ({ swiperId, swipeeId, isRightSwipe }) => {
-    console.log("ok", swiperId, swipeeId, isRightSwipe);
-    try {
-      const response = await axios.post("/swipe", {
-        swiper_id: swiperId,
-        swipee_id: swipeeId,
-        is_right_swipe: isRightSwipe,
-      });
-      if (response.data.ismatching === true) {
-        alert("It's a match!");
-      }
-    } catch (error) {
-      return error.message;
+export const sendSwipe = createAsyncThunk("swipes/sendSwipe", async (data, thunkAPI) => {
+  // console.log("ok", data);
+  try {
+    const response = await APIRequest.post("/swipes", {
+      swiper_id: data.swiperId,
+      swipee_id: data.swipeeId,
+      is_right_swipe: data.isRightSwipe,
+    });
+    console.log("response", response);
+    if (response.data.ismatching === true) {
+      alert("It's a match!");
     }
+  } catch (error) {
+    console.log("error", error);
+    return error.message;
   }
-);
+});
 
 const swipeSlice = createSlice({
   name: "swipes",
@@ -34,6 +33,7 @@ const swipeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(sendSwipe.fulfilled, (state, action) => {
       state.swipes.push(action.payload);
+      console.log("Swipe sent", action.payload);
     });
     builder.addCase(sendSwipe.rejected, (state, action) => {
       console.log("Error sending swipe", action.payload);

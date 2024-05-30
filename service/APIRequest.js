@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const RequestAPI = axios.create({
-  baseURL: "https://c3f8-87-64-148-159.ngrok-free.app/api",
+const APIRequest = axios.create({
+  baseURL: "https://61a4-87-64-148-159.ngrok-free.app/api",
   withCredentials: false,
 });
 
-export default RequestAPI;
+export default APIRequest;

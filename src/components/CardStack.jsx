@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
 import { Animated, Dimensions, PanResponder, View } from "react-native";
 import CardForSlide from "./CardForSlide";
-import { set } from "react-hook-form";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SwipableCards = (props) => {
   const SCREEN_HEIGHT = Dimensions.get("window").height;
   const SCREEN_WIDTH = Dimensions.get("window").width;
   const [isRightSwipe, setIsRightSwipe] = useState(false);
+  const [swiperId, setSwiperId] = useState(0);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const getMyId = async () => {
+    const value = await AsyncStorage.getItem("my-id");
+    setSwiperId(value);
+  };
+
+  useEffect(() => {
+    getMyId();
+  }, []);
 
   const position = new Animated.ValueXY();
 
@@ -64,7 +74,12 @@ const SwipableCards = (props) => {
           useNativeDriver: false,
         }).start(() => {
           setIsRightSwipe(true);
-          props.onAccepted(props.users[currentIndex].id, isRightSwipe);
+          props.onAccepted(isRightSwipe);
+          props.setData(...props.data, {
+            swipeeId: props.users[currentIndex].id,
+            isRightSwipe: 1,
+            swiperId: swiperId,
+          });
           setCurrentIndex(currentIndex + 1);
           position.setValue({ x: 0, y: 0 });
         });
@@ -74,7 +89,15 @@ const SwipableCards = (props) => {
           useNativeDriver: false,
         }).start(() => {
           setIsRightSwipe(false);
-          props.onDeclined(props.users[currentIndex].id, isRightSwipe);
+          props.onDeclined(isRightSwipe);
+          props.setData([
+            ...props.data,
+            {
+              swipeeId: props.users[currentIndex].id,
+              isRightSwipe: 0,
+              swiperId: swiperId,
+            },
+          ]);
           setCurrentIndex(currentIndex + 1);
           position.setValue({ x: 0, y: 0 });
         });
