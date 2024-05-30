@@ -75,7 +75,7 @@ const SwipableCards = (props) => {
         }).start(() => {
           setIsRightSwipe(true);
           props.onAccepted(isRightSwipe);
-          props.setData(...props.data, {
+          props.setData({
             swipeeId: props.users[currentIndex].id,
             isRightSwipe: 1,
             swiperId: swiperId,
@@ -90,14 +90,11 @@ const SwipableCards = (props) => {
         }).start(() => {
           setIsRightSwipe(false);
           props.onDeclined(isRightSwipe);
-          props.setData([
-            ...props.data,
-            {
-              swipeeId: props.users[currentIndex].id,
-              isRightSwipe: 0,
-              swiperId: swiperId,
-            },
-          ]);
+          props.setData({
+            swipeeId: props.users[currentIndex].id,
+            isRightSwipe: 0,
+            swiperId: swiperId,
+          });
           setCurrentIndex(currentIndex + 1);
           position.setValue({ x: 0, y: 0 });
         });
@@ -112,13 +109,14 @@ const SwipableCards = (props) => {
   });
 
   useEffect(() => {
-    if (currentIndex === props.users.length) props.onEnded();
+    if (currentIndex === props?.users.length) props.onEnded();
   }, [currentIndex]);
 
+  // console.log("props", props);
   return (
     <View>
-      {props.users
-        .map((user, index) => {
+      {props?.users
+        ?.map((user, index) => {
           if (index === currentIndex) {
             return (
               <Animated.View

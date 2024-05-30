@@ -8,23 +8,26 @@ const initialState = {
 export const SWIPE_RIGHT = "SWIPE_RIGHT";
 export const SWIPE_LEFT = "SWIPE_LEFT";
 
-export const sendSwipe = createAsyncThunk("swipes/sendSwipe", async (data, thunkAPI) => {
-  // console.log("ok", data);
-  try {
-    const response = await APIRequest.post("/swipes", {
-      swiper_id: data.swiperId,
-      swipee_id: data.swipeeId,
-      is_right_swipe: data.isRightSwipe,
-    });
-    console.log("response", response);
-    if (response.data.ismatching === true) {
-      alert("It's a match!");
+export const sendSwipe = createAsyncThunk(
+  "swipes/sendSwipe",
+  async (data, thunkAPI) => {
+    // console.log("ok", data);
+    try {
+      const response = await APIRequest.post("/swipes", {
+        swiper_id: data.swiperId,
+        swipee_id: data.swipeeId,
+        is_right_swipe: data.isRightSwipe,
+      });
+      // console.log("response", response);
+      if (response.data.ismatching === true) {
+        alert("It's a match!");
+      }
+    } catch (error) {
+      console.log("error", error);
+      return error.message;
     }
-  } catch (error) {
-    console.log("error", error);
-    return error.message;
   }
-});
+);
 
 const swipeSlice = createSlice({
   name: "swipes",

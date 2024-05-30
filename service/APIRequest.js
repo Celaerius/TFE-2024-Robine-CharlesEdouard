@@ -2,7 +2,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const APIRequest = axios.create({
-  baseURL: "https://61a4-87-64-148-159.ngrok-free.app/api",
+  baseURL: "https://866a-87-64-148-159.ngrok-free.app/api",
   withCredentials: false,
 });
 

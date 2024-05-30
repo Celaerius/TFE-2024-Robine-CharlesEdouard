@@ -37,8 +37,12 @@ export default function HomeScreen() {
             users={users}
             setData={setData}
             data={data}
-            onDeclined={(isRightSwipe) => {}}
-            onAccepted={(isRightSwipe) => {}}
+            onDeclined={(isRightSwipe) => {
+              console.log("declined");
+            }}
+            onAccepted={(isRightSwipe) => {
+              console.log("accepted");
+            }}
             onEnded={() => {}}
           />
         )}

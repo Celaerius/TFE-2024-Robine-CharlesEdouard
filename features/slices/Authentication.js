@@ -23,6 +23,8 @@ export const AccesLogin = createAsyncThunk(
       const response = await APIRequest.post("/login", {
         email: email,
         password: password,
+        // email: "test@test.be",
+        // password: "test",
       });
       if (response.status === 200) {
         return response.data.success;
@@ -45,7 +47,7 @@ export const AccesRegister = createAsyncThunk(
         name: name,
       });
       if (response.status === 201) {
-        console.log("Register success", response);
+        // console.log("Register success", response);
       } else {
         console.log("Register failed", response.data);
       }
@@ -55,6 +57,30 @@ export const AccesRegister = createAsyncThunk(
     }
   }
 );
+
+// export const AccesLogout = createAsyncThunk(
+//   "authentication/logout",
+//   async (thunkAPI) => {
+//     const value = await AsyncStorage.getItem("my-key");
+
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${value}`,
+//       },
+//     };
+
+//     try {
+//       const response = await APIRequest.post("/logout", config);
+//       if (response.status === 200) {
+//         return response.data;
+//       } else {
+//         return thunkAPI.rejectWithValue("Logout failed");
+//       }
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 export const authenticationSlice = createSlice({
   name: "authentication",
@@ -66,7 +92,7 @@ export const authenticationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(AccesLogin.fulfilled, (state, action) => {
-      console.log("Login success", action);
+      console.log("Login success", action.payload.token);
       state.token = action.payload.token;
       storeData(action.payload);
     });
@@ -77,6 +103,11 @@ export const authenticationSlice = createSlice({
     builder.addCase(AccesRegister.fulfilled, (state, action) => {
       state.token = null;
     });
+    //   builder.addCase(AccesLogout.fulfilled, (state, action) => {
+    //     state.token = null;
+    //     AsyncStorage.removeItem("my-key");
+    //     AsyncStorage.removeItem("my-id");
+    //   });
   },
 });
 

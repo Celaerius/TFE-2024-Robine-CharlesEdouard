@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import CustomBottomTab from "./components/BottomTabs/CustomBottomTab";
-import Screen from "./screens/Screen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,14 +21,14 @@ export default function BottomTabs() {
           component={HomeScreen}
         />
         <Tab.Screen
-          options={{ tabBarLabel: "Profil" }}
+          options={{ tabBarLabel: "Matches" }}
           name="Profil"
           component={ProfilScreen}
         />
         <Tab.Screen
           options={{ tabBarLabel: "Settings" }}
           name="Settings"
-          component={Screen}
+          component={SettingsScreen}
         />
       </Tab.Group>
     </Tab.Navigator>

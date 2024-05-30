@@ -19,7 +19,7 @@ export const fetchMatches = createAsyncThunk(
     };
     try {
       const response = await APIRequest.get("/matches", config);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return error.message;
     }
