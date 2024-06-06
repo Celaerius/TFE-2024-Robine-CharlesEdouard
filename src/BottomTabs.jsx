@@ -4,15 +4,29 @@ import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import CustomBottomTab from "./components/BottomTabs/CustomBottomTab";
 import SettingsScreen from "./screens/SettingsScreen";
+import AwsomeFont5 from "react-native-vector-icons/FontAwesome5";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
   return (
     <Tab.Navigator
-    // tabBar={(props) => {
-    //   return <CustomBottomTab {...props} />;
-    // }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "HomeScreen") {
+            iconName = focused ? "home" : "home";
+          } else if (route.name === "Profil") {
+            iconName = focused ? "heart" : "heart";
+          } else if (route.name === "Settings") {
+            iconName = focused ? "wrench" : "wrench";
+          }
+          return <AwsomeFont5 name={iconName} size={size} color={color} />;
+        },
+      })}
+      // tabBar={(props) => {
+      //   return <CustomBottomTab {...props} />;
+      // }}
     >
       <Tab.Group screenOptions={{ headerShown: false }}>
         <Tab.Screen

@@ -1,7 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIRequest from "../../service/APIRequest";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   token: null,
@@ -58,6 +57,37 @@ export const AccesRegister = createAsyncThunk(
   }
 );
 
+export const AccesUpdate = createAsyncThunk(
+  "authentication/update",
+  async ({ email, password, name, profilepicture }, thunkAPI) => {
+    console.log("update", name, profilepicture);
+    const value = await AsyncStorage.getItem("my-key");
+    const id = await AsyncStorage.getItem("my-id");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${value}`,
+      },
+    };
+
+    try {
+      const response = await APIRequest.put(`/users/${id}`, {
+        email: email,
+        password: password,
+        name: name,
+        profile_picture: profilepicture,
+      });
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return thunkAPI.rejectWithValue("Update failed");
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 // export const AccesLogout = createAsyncThunk(
 //   "authentication/logout",
 //   async (thunkAPI) => {
@@ -101,6 +131,12 @@ export const authenticationSlice = createSlice({
       console.log("Login failed", action.payload);
     });
     builder.addCase(AccesRegister.fulfilled, (state, action) => {
+      state.token = null;
+    });
+    builder.addCase(AccesRegister.rejected, (state, action) => {
+      state.token = null;
+    });
+    builder.addCase(AccesUpdate.fulfilled, (state, action) => {
       state.token = null;
     });
     //   builder.addCase(AccesLogout.fulfilled, (state, action) => {
