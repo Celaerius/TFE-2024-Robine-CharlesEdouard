@@ -8,6 +8,7 @@ const initialState = {
 
 const storeData = async (value) => {
   try {
+    console.log("value", value);
     await AsyncStorage.setItem("my-key", value.token);
     await AsyncStorage.setItem("my-id", String(value.id));
   } catch (e) {

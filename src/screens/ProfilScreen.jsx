@@ -1,65 +1,39 @@
-// import React from "react";
-// import { StatusBar, Text, View } from "react-native";
-// import Animated, { FadeInUp } from "react-native-reanimated";
-// import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { useEffect } from "react";
-// import { fetchMatches } from "../../features/slices/Matches";
-
-// export default function ProfilScreen() {
-//   const matches = useSelector((state) => state.matches.matches);
-//   const dispatch = useDispatch();
-
-//   console.log("matches", matches);
-
-//   const getMatches = async () => {
-//     dispatch(fetchMatches());
-//   };
-
-//   useEffect(() => {
-//     getMatches();
-//   }, []);
-
-//   return (
-//     <View style={styles.container}>
-//       <StatusBar barStyle="dark-content" />
-//       <Animated.View style={FadeInUp}>
-//         <Text style={styles.title}>List of Matches</Text>
-//         {matches?.map((match) => (
-//           <Text key={match.id}>{match.name}</Text>
-//         ))}
-//       </Animated.View>
-//     </View>
-//   );
-// }
-
-// const styles = {
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   title: {
-//     fontSize: 24,
-//   },
-// };
-
-import React, { useEffect } from "react";
-import { StatusBar, Text, View, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchMatches } from "../../features/slices/Matches";
 
 export default function ProfilScreen() {
   const matches = useSelector((state) => state.matches.matches);
   const dispatch = useDispatch();
+  const [id, setId] = useState("");
+  console.log("id", id);
 
   const getMatches = async () => {
-    dispatch(fetchMatches());
+    await dispatch(fetchMatches()).unwrap();
   };
+
+  const getId = async () => {
+    const value = await AsyncStorage.getItem("my-id");
+    setId(value);
+  };
+
+  switch (id) {
+    case id == matches[0]?.user1_id:
+      console.log("1", matches);
+      break;
+    case id == matches[0]?.user2_id:
+      console.log("2", matches);
+      break;
+    default:
+      console.log("default", matches[0]?.user2_id);
+  }
 
   useEffect(() => {
     getMatches();
+    getId();
   }, []);
 
   return (
@@ -74,16 +48,18 @@ export default function ProfilScreen() {
         style={styles.content}
       >
         <Text style={styles.title}>List of Matches</Text>
-        {matches?.map(
-          (match) => (
-            console.log("match", match),
-            (
-              <Text key={match.id} style={styles.matchText}>
-                {match.name}
-              </Text>
-            )
-          )
-        )}
+        {/* {matches.user1_id == id
+          ? (console.log("1", matches),
+            matches?.user2?.map(
+              (match) => (
+                console.log("match", match),
+                (
+                  <Text key={match.id} style={styles.matchText}>
+                    {match.name}
+                  </Text>
+                )
+              )
+            )) */}
       </Animated.View>
     </View>
   );
