@@ -9,7 +9,6 @@ export default function ProfilScreen() {
   const matches = useSelector((state) => state.matches.matches);
   const dispatch = useDispatch();
   const [id, setId] = useState("");
-  console.log("id", id);
 
   const getMatches = async () => {
     await dispatch(fetchMatches()).unwrap();
@@ -20,21 +19,26 @@ export default function ProfilScreen() {
     setId(value);
   };
 
-  switch (id) {
-    case id == matches[0]?.user1_id:
-      console.log("1", matches);
-      break;
-    case id == matches[0]?.user2_id:
-      console.log("2", matches);
-      break;
-    default:
-      console.log("default", matches[0]?.user2_id);
-  }
+  useEffect(() => {
+    getId();
+    getMatches();
+  }, []);
+
+  console.log("id", id);
+  console.log("matches", matches[0]?.user2.id);
 
   useEffect(() => {
-    getMatches();
-    getId();
-  }, []);
+    switch (id) {
+      case matches[0]?.user1.id:
+        console.log("1", matches);
+        break;
+      case matches[0]?.user2.id:
+        console.log("2", matches);
+        break;
+      default:
+        console.log("default", matches);
+    }
+  }, [matches]);
 
   return (
     <View style={styles.container}>
